@@ -1,4 +1,0 @@
-#!/bin/bash
-
-mkdir /var/www/python
-chown apache:apache /var/www/python

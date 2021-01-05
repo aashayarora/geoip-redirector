@@ -43,18 +43,26 @@ spec:
         - mountPath: /home/
           name: cache-vol
         - mountPath: /var/www/python/geoip.py
-          name: geoip-py
+          name: geoip-app
           subPath: geoip.py
+        - mountPath: /etc/httpd/conf.d/geoip.conf
+          name: geoip-app
+          subPath: geoip.conf
       dnsPolicy: ClusterFirst
       restartPolicy: Always
-      #nodeSelector:
-      #  kubernetes.io/hostname: stashcache.t2.ucsd.edu
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30
       volumes:
       - name: cache-vol
         emptyDir: {}
-      - name: geoip-py
+      - name: geoip-app
         configMap:
-          name: geoip-py
+          name: geoip-app
+          items:
+          - key: geoip.conf
+            path: geoip.conf
+          - key: geoip.py
+            path: geoip.py
+          - key: geoip.wsgi
+            path: geoip.wsgi
         
