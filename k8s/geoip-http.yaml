@@ -42,9 +42,12 @@ spec:
         volumeMounts:
         - mountPath: /home/
           name: cache-vol
-        - mountPath: /var/www/python/geoip.py
+        - mountPath: /var/www/FLASKAPPS/GeoIP/geoip.wsgi
           name: geoip-app
-          subPath: geoip.py
+          subPath: geoip.wsgi
+        - mountPath: /var/www/FLASKAPPS/GeoIP/__init__.py
+          name: geoip-app
+          subPath: __init__.py
         - mountPath: /etc/httpd/conf.d/geoip.conf
           name: geoip-app
           subPath: geoip.conf
@@ -61,8 +64,8 @@ spec:
           items:
           - key: geoip.conf
             path: geoip.conf
-          - key: geoip.py
-            path: geoip.py
+          - key: __init__.py
+            path: __init__.py
           - key: geoip.wsgi
             path: geoip.wsgi
         

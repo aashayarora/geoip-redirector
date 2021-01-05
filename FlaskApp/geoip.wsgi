@@ -1,5 +1,4 @@
 #!/usr/bin/python
 import sys
-sys.path.insert(0,"/var/www/python/")
-from helloworldapp import app as application
-
+sys.path.insert(0,"/var/www/FLASKAPPS/")
+from GeoIP import app as application

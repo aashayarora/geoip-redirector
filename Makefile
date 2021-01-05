@@ -2,10 +2,10 @@ container:
 	- kubectl delete -f k8s/geoip-http.yaml
 	- kubectl create -f k8s/geoip-http.yaml
 
-config:
-	- kubectl delete configmap geoip-py -n osg-services
+conf:
+	- kubectl delete configmap geoip-app -n osg-services
 	- kubectl create configmap geoip-app \
-	  --from-file=FlaskApp/geoip.py \
+	  --from-file=FlaskApp/__init__.py \
 	  --from-file=FlaskApp/geoip.wsgi \
 	  --from-file=FlaskApp/geoip.conf -n osg-services
 
