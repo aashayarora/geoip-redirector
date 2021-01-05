@@ -19,8 +19,7 @@ def cache_list_to_string(cache_list):
         comma_list += cache + ","
     return comma_list
 
-@app.route('/<path:subpath>')
-def nearest_cache(subpath):
+def nearest_cache():
     CACHE_LIST = ["stashcache.t2.ucsd.edu", "mwt2-stashcache.campuscluster.illinois.edu",
                   "its-condor-xrootd1.syr.edu","osg-kansas-city-stashcache.nrp.internet2.edu",
                   "osg-chicago-stashcache.nrp.internet2.edu","osg-new-york-stashcache.nrp.internet2.edu",
@@ -39,7 +38,16 @@ def nearest_cache(subpath):
     order_list_caches = order_list_caches.split(",")
 
     nearest_cache = CACHE_LIST[int(order_list_caches[0])-1]
-    return redirect('http://{}:8000/{}'.format(nearest_cache,subpath),code=302)
+    return nearest_cache
+
+
+@app.route('/')
+def welcome():
+    return '<h1>Your Nearest XCache: ' + nearest_cache() + '</h1>'
+
+@app.route('/<path:subpath>')
+def xcache_redirect(subpath):
+    return redirect('http://{}:8000/{}'.format(nearest_cache(),subpath),code=302)
 
 if __name__ == '__main__':
     app.run()
