@@ -7,4 +7,3 @@ RUN yum -y install vim emacs && \
 ADD geoip.conf /etc/httpd/conf.d/geoip.conf
 ADD supervisord.conf /etc/supervisord.d/
 ADD image-config.d/* /etc/osg/image-config.d/
-ADD geoip.py /var/www/python/geoip.py

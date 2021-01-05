@@ -42,6 +42,9 @@ spec:
         volumeMounts:
         - mountPath: /home/
           name: cache-vol
+        - mountPath: /var/www/python/geoip.py
+          name: geoip-py
+          subPath: geoip.py
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       #nodeSelector:
@@ -51,3 +54,7 @@ spec:
       volumes:
       - name: cache-vol
         emptyDir: {}
+      - name: geoip-py
+        configMap:
+          name: geoip-py
+        
