@@ -19,9 +19,17 @@ def cache_list_to_string(cache_list):
         comma_list += cache + ","
     return comma_list
 
-@app.route('/<path:subpath>', methods=['GET', 'POST'])
+@app.route('/<path:subpath>')
 def nearest_cache(subpath):
-    CACHE_LIST = ["stashcache.t2.ucsd.edu", "mwt2-stashcache.campuscluster.illinois.edu", "its-condor-xrootd1.syr.edu","osg-kansas-city-stashcache.nrp.internet2.edu","osg-chicago-stashcache.nrp.internet2.edu","osg-new-york-stashcache.nrp.internet2.edu","sc-cache.chtc.wisc.edu","osg-gftp.pace.gatech.edu"]
+    CACHE_LIST = ["stashcache.t2.ucsd.edu", "mwt2-stashcache.campuscluster.illinois.edu",
+                  "its-condor-xrootd1.syr.edu","osg-kansas-city-stashcache.nrp.internet2.edu",
+                  "osg-chicago-stashcache.nrp.internet2.edu","osg-new-york-stashcache.nrp.internet2.edu",
+                  "sc-cache.chtc.wisc.edu","osg-gftp.pace.gatech.edu",
+                  "osg-kansas-city-stashcache.nrp.internet2.edu", "osg-new-york-stashcache.nrp.internet2.edu",
+                  "dtn2-daejeon.kreonet.net", "fiona.uvalight.net",
+                  "stashcache.gravity.cf.ac.uk" ,"xcache.cr.cnaf.infn.it",
+                  "xcachevirgo.pic.es"]
+
     OASIS_HOST = "oasis-replica.opensciencegrid.org"
     UserIP = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)  
 
@@ -31,7 +39,7 @@ def nearest_cache(subpath):
     order_list_caches = order_list_caches.split(",")
 
     nearest_cache = CACHE_LIST[int(order_list_caches[0])-1]
-    return redirect(url_for('http://{}:8000/{}'.format(nearest_cache,subpath)))
+    return redirect('http://{}:8000/{}'.format(nearest_cache,subpath),code=302)
 
 if __name__ == '__main__':
     app.run()
