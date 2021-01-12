@@ -7,5 +7,8 @@ RUN yum -y install vim emacs && \
 
 RUN pip install flask
 
-ADD supervisor.conf /etc/supervisor.d/
+RUN mkdir /var/www/FLASKAPPS/GeoIP
+RUN chown apache:apache /var/www/FLASKAPPS/GeoIP 
+
+ADD supervisor.conf /etc/supervisord.d/
 ADD image-config.d/* /etc/osg/image-config.d/
