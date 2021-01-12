@@ -7,5 +7,5 @@ RUN yum -y install vim emacs && \
 
 RUN pip install flask
 
-ADD supervisord.conf /etc/supervisord.d/
+ADD supervisor.conf /etc/supervisor.d/
 ADD image-config.d/* /etc/osg/image-config.d/
