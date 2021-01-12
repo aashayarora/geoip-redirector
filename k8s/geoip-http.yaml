@@ -52,6 +52,8 @@ spec:
           name: geoip-app
           subPath: geoip.conf
       dnsPolicy: ClusterFirst
+      nodeSelector:
+        kubernetes.io/hostname: stashcache.t2.ucsd.edu
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30
