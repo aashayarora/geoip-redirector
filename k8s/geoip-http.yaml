@@ -34,13 +34,13 @@ spec:
         env:
         resources:
           limits:
-            cpu: 4
-            memory: 8Gi
-          requests:
             cpu: 2
-            memory: 5Gi
+            memory: 4Gi
+          requests:
+            cpu: 1
+            memory: 2Gi
         volumeMounts:
-        - mountPath: /home/
+        - mountPath: /home/GeoIP
           name: cache-vol
         - mountPath: /var/www/FLASKAPPS/GeoIP/geoip.wsgi
           name: geoip-app
