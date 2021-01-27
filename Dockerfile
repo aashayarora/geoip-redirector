@@ -5,7 +5,7 @@ RUN yum -y install vim emacs && \
     yum -y install mod_wsgi && \
     yum -y install python-pip
 
-RUN pip install flask
+RUN pip install flask requests
 
 RUN mkdir -p /var/www/FLASKAPPS/GeoIP
 RUN chown apache:apache /var/www/FLASKAPPS/GeoIP 
