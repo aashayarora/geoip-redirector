@@ -12,5 +12,3 @@ RUN chown apache:apache /var/www/FLASKAPPS/GeoIP
 
 ADD supervisor.conf /etc/supervisord.d/
 ADD image-config.d/* /etc/osg/image-config.d/
-
-EXPOSE 80 443

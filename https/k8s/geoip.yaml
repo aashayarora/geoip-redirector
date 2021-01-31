@@ -2,14 +2,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    k8s-app: geoip-http
-  name: geoip-http
+    k8s-app: geoip-https
+  name: geoip-https
   namespace: osg-services
 spec:
   replicas: 1
   selector:
     matchLabels:
-      k8s-app: geoip-http
+      k8s-app: geoip-https
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -19,7 +19,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        k8s-app: geoip-http
+        k8s-app: geoip-https
     spec:
       tolerations:
       - effect: NoSchedule
@@ -30,8 +30,7 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
-        name: geoip-http
-        env:
+        name: geoip-https
         resources:
           limits:
             cpu: 2
@@ -43,13 +42,13 @@ spec:
         - mountPath: /home/GeoIP
           name: cache-vol
         - mountPath: /var/www/FLASKAPPS/GeoIP/geoip.wsgi
-          name: geoip-app
+          name: geoip-https
           subPath: geoip.wsgi
         - mountPath: /var/www/FLASKAPPS/GeoIP/__init__.py
-          name: geoip-app
+          name: geoip-https
           subPath: __init__.py
         - mountPath: /etc/httpd/conf.d/geoip.conf
-          name: geoip-app
+          name: geoip-https
           subPath: geoip.conf
       dnsPolicy: ClusterFirst
       nodeSelector:
@@ -60,9 +59,9 @@ spec:
       volumes:
       - name: cache-vol
         emptyDir: {}
-      - name: geoip-app
+      - name: geoip-https
         configMap:
-          name: geoip-app
+          name: geoip-https
           items:
           - key: geoip.conf
             path: geoip.conf
@@ -70,4 +69,3 @@ spec:
             path: __init__.py
           - key: geoip.wsgi
             path: geoip.wsgi
-        

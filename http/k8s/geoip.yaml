@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: geoip-http
+  name: geoip-http
+  namespace: osg-services
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: geoip-http
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        k8s-app: geoip-http
+    spec:
+      tolerations:
+      - effect: NoSchedule
+        key: nautilus.io/stashcache
+        operator: Exists
+      containers:
+      - image: aaarora/geoip-http:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        name: geoip-http
+        resources:
+          limits:
+            cpu: 2
+            memory: 4Gi
+          requests:
+            cpu: 1
+            memory: 2Gi
+        volumeMounts:
+        - mountPath: /home/GeoIP
+          name: cache-vol
+        - mountPath: /var/www/FLASKAPPS/GeoIP/geoip.wsgi
+          name: geoip-http
+          subPath: geoip.wsgi
+        - mountPath: /var/www/FLASKAPPS/GeoIP/__init__.py
+          name: geoip-http
+          subPath: __init__.py
+        - mountPath: /etc/httpd/conf.d/geoip.conf
+          name: geoip-http
+          subPath: geoip.conf
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        kubernetes.io/hostname: stashcache.t2.ucsd.edu
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: cache-vol
+        emptyDir: {}
+      - name: geoip-http
+        configMap:
+          name: geoip-http
+          items:
+          - key: geoip.conf
+            path: geoip.conf
+          - key: __init__.py
+            path: __init__.py
+          - key: geoip.wsgi
+            path: geoip.wsgi
