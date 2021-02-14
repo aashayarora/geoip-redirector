@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: geoip-http
+  name: geoip-http-hpa
   namespace: osg-services
 spec:
   scaleTargetRef:
@@ -24,7 +24,7 @@ spec:
       describedObject:
         apiVersion: networking.k8s.io/v1
         kind: Ingress
-        name: geoip-http-ingress
+        name: geoip-http-ing
       target:
         type: Value
         value: 5k

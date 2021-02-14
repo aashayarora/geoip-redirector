@@ -25,7 +25,8 @@ def _nearest_cache(UserIP):
     "osg-gftp2.pace.gatech.edu": "8443",
     "dtn2-daejeon.kreonet.net": "8444",
     "osg-houston-stashcache.nrp.internet2.edu": "8444",
-    "osg-sunnyvale-stashcache.nrp.internet2.edu": "8444"} 
+    "osg-sunnyvale-stashcache.nrp.internet2.edu": "8444"}
+
     OASIS_HOST = "oasis-replica.opensciencegrid.org"
     comma_list = _cache_list_to_string(CACHE_LIST)
     order_list_caches = get("http://{}:8000/cvmfs/dwd.test/api/v1.0/geo/{}/{}".format(OASIS_HOST, UserIP, comma_list)).content
@@ -60,8 +61,7 @@ def welcome():
 def xcache_redirect(subpath):
     UserIP = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
     nearest_cache = doAll(UserIP)
-    return get('http://{}:{}/{}'.format(nearest_cache[0],nearest_cache[1],subpath)).content
+    return redirect('https://{}:{}/{}'.format(nearest_cache[0],nearest_cache[1],subpath),code=302)
 
 if __name__ == '__main__':
-    app.debug = True
     app.run()

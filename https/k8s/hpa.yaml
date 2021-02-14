@@ -1,15 +1,15 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: geoip-http
+  name: geoip-https-hpa
   namespace: osg-services
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: geoip-http
-  minReplicas: 1
-  maxReplicas: 2
+    name: geoip-https
+  minReplicas: 2
+  maxReplicas: 4
   metrics:
   - type: Resource
     resource:
@@ -24,7 +24,7 @@ spec:
       describedObject:
         apiVersion: networking.k8s.io/v1
         kind: Ingress
-        name: geoip-http-ingress
+        name: geoip-https-ing
       target:
         type: Value
         value: 5k

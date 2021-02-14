@@ -6,7 +6,6 @@ metadata:
   name: geoip-https
   namespace: osg-services
 spec:
-  replicas: 1
   selector:
     matchLabels:
       k8s-app: geoip-https
