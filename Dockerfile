@@ -1,7 +1,7 @@
 FROM opensciencegrid/software-base:fresh
 LABEL maintainer OSG Software <help@opensciencegrid.org>
 
-RUN yum install epel-release && \
+RUN yum -y install epel-release && \
     yum -y install vim && \
     yum -y install mod_wsgi && \
     yum -y install python-pip
