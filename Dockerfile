@@ -6,8 +6,8 @@ RUN yum -y install epel-release && \
     yum -y install mod_wsgi && \
     yum -y install python-pip
 
-RUN python -m pip install --upgrade pip && \
-    python -m pip install flask requests
+RUN pip install --upgrade pip && \
+    pip install flask requests
 
 RUN mkdir -p /var/www/GeoIP-Redi/app
 RUN chown apache:apache /var/www/GeoIP-Redi/app
