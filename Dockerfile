@@ -1,11 +1,12 @@
 FROM opensciencegrid/software-base:fresh
 LABEL maintainer OSG Software <help@opensciencegrid.org>
 
-RUN yum -y install vim && \
+RUN yum install epel-release && \
+    yum -y install vim && \
     yum -y install mod_wsgi && \
-    yum -y install python
+    yum -y install python-pip
 
-RUN python -m pip install flask requests
+RUN pip install flask requests
 
 RUN mkdir -p /var/www/GeoIP-Redi/app
 RUN chown apache:apache /var/www/GeoIP-Redi/app
