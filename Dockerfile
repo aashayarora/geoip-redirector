@@ -3,7 +3,7 @@ LABEL maintainer OSG Software <help@opensciencegrid.org>
 
 RUN yum -y install epel-release && \
     yum -y install vim && \
-    yum -y install mod_wsgi && \
+    yum -y install libapache2-mod-wsgi-py3 && \
     yum -y install python3
 
 RUN pip3 install flask requests
