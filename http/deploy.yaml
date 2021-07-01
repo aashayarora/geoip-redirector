@@ -41,10 +41,10 @@ spec:
         volumeMounts:
         - mountPath: /home/GeoIP
           name: cache-vol
-        - mountPath: /var/www/FLASKAPPS/GeoIP/geoip.wsgi
+        - mountPath: /var/www/GeoIP-Redi/app/geoip.py
           name: geoip-http
-          subPath: geoip.wsgi
-        - mountPath: /var/www/FLASKAPPS/GeoIP/__init__.py
+          subPath: geoip.py
+        - mountPath: /var/www/GeoIP-Redi/app/__init__.py
           name: geoip-http
           subPath: __init__.py
         - mountPath: /etc/httpd/conf.d/geoip.conf
@@ -67,5 +67,36 @@ spec:
             path: geoip.conf
           - key: __init__.py
             path: __init__.py
-          - key: geoip.wsgi
-            path: geoip.wsgi
+          - key: geoip.py
+            path: geoip.py
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: geoip-http-hpa
+  namespace: osg-services
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: geoip-http
+  minReplicas: 1
+  maxReplicas: 2
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+  - type: Object
+    object:
+      metric:
+        name: requests-per-second
+      describedObject:
+        apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        name: geoip-http-ing
+      target:
+        type: Value
+        value: 5k

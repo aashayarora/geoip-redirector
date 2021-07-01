@@ -1,9 +1,7 @@
 import json
 import os
 
-from flask import Flask, request, redirect
-from requests import get
-app = Flask(__name__)
+from app import app
 
 def _cache_list_to_string(cache_list):
     comma_list = ""
@@ -16,16 +14,17 @@ def _write_json(data, fileName = '/home/GeoIP/httpUserLog.json'):
         json.dump(data, f, indent=4)
 
 def _nearest_cache(UserIP):
-    CACHE_LIST = {"xrootd-local.unl.edu": "1094",
-    "stashcache.t2.ucsd.edu": "8444", 
-    "its-condor-xrootd1.syr.edu": "8443", 
-    "osg-kansas-city-stashcache.nrp.internet2.edu": "8444",
-    "osg-chicago-stashcache.nrp.internet2.edu": "8444",
-    "osg-new-york-stashcache.nrp.internet2.edu": "8444",
-    "osg-gftp2.pace.gatech.edu": "8443",
-    "dtn2-daejeon.kreonet.net": "8444",
-    "osg-houston-stashcache.nrp.internet2.edu": "8444",
-    "osg-sunnyvale-stashcache.nrp.internet2.edu": "8444"}
+    CACHE_LIST = {"stashcache.t2.ucsd.edu": "8000",
+    "mwt2-stashcache.campuscluster.illinois.edu": "8000",
+    "its-condor-xrootd1.syr.edu": "8000",
+    "osg-kansas-city-stashcache.nrp.internet2.edu": "8000",
+    "osg-chicago-stashcache.nrp.internet2.edu": "8000",
+    "osg-new-york-stashcache.nrp.internet2.edu": "8000",
+    "stash-cache.osg.chtc.io": "8000",
+    "osg-gftp2.pace.gatech.edu": "8000",
+    "dtn2-daejeon.kreonet.net": "8000",
+    "osg-houston-stashcache.nrp.internet2.edu": "8000",
+    "osg-sunnyvale-stashcache.nrp.internet2.edu": "8000"}
 
     OASIS_HOST = "oasis-replica.opensciencegrid.org"
     comma_list = _cache_list_to_string(CACHE_LIST)
@@ -61,7 +60,7 @@ def welcome():
 def xcache_redirect(subpath):
     UserIP = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
     nearest_cache = doAll(UserIP)
-    return redirect('https://{}:{}/{}'.format(nearest_cache[0],nearest_cache[1],subpath),code=302)
+    return redirect('http://{}:{}/{}'.format(nearest_cache[0],nearest_cache[1],subpath),code=302)
 
 if __name__ == '__main__':
     app.run()
