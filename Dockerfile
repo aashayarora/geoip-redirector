@@ -3,10 +3,10 @@ LABEL maintainer OSG Software <help@opensciencegrid.org>
 
 RUN yum -y install epel-release && \
     yum -y install vim && \
-    yum -y install httpd-devel && \
-    yum -y install python3
+    yum -y install mod_wsgi && \
+    yum -y install python-pip
 
-RUN pip3 install flask requests mod_wsgi
+RUN python -m pip install flask==0.12.4 requests==2.20.0
 
 RUN mkdir -p /var/www/GeoIP-Redi/app
 RUN chown apache:apache /var/www/GeoIP-Redi/app
