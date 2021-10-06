@@ -1,16 +1,14 @@
-FROM opensciencegrid/software-base:fresh
+FROM python:3.7-alpine
 LABEL maintainer OSG Software <help@opensciencegrid.org>
 
-RUN yum -y install epel-release && \
-    yum -y install vim && \
-    yum -y install mod_wsgi && \
-    yum -y install python-pip
+WORKDIR /code
 
-RUN pip install -—upgrade setuptools && \
-    pip install flask==0.12.4 requests==2.20.0
+COPY requirements.txt requirements.txt
 
-RUN mkdir -p /var/www/GeoIP-Redi/app
-RUN chown apache:apache /var/www/GeoIP-Redi/app
+RUN apk add --no-cache gcc musl-dev linux-headers && \
+    pip install -r requirements.txt
 
-ADD supervisor.conf /etc/supervisord.d/
-ADD image-config.d/* /etc/osg/image-config.d/
+ENV FLASK_APP=geoip.py
+ENV FLASK_RUN_HOST=0.0.0.0
+
+CMD ["flask", "run"]

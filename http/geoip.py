@@ -1,7 +1,9 @@
 import json
 import os
+import requests
+from flask import Flask, request
 
-from app import app
+app = Flask(__name__)
 
 def _cache_list_to_string(cache_list):
     comma_list = ""
@@ -28,7 +30,7 @@ def _nearest_cache(UserIP):
 
     OASIS_HOST = "oasis-replica.opensciencegrid.org"
     comma_list = _cache_list_to_string(CACHE_LIST)
-    order_list_caches = get("http://{}:8000/cvmfs/dwd.test/api/v1.0/geo/{}/{}".format(OASIS_HOST, UserIP, comma_list)).content
+    order_list_caches = requests.get("http://{}:8000/cvmfs/dwd.test/api/v1.0/geo/{}/{}".format(OASIS_HOST, UserIP, comma_list)).text
     order_list_caches = order_list_caches.split(",")
     nearest_cache = CACHE_LIST.keys()[int(order_list_caches[0])-1]
     port = CACHE_LIST.values()[int(order_list_caches[0])-1]

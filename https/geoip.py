@@ -1,7 +1,8 @@
 import json
 import os
+from flask import Flask
 
-from app import app
+app = Flask(__name__)
 
 def _cache_list_to_string(cache_list):
     comma_list = ""

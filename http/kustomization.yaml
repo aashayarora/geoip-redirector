@@ -5,9 +5,7 @@ resources:
 configMapGenerator:
   - name: geoip-http
     files:
-      - geoip.conf
       - geoip.py
-      - __init__.py
 
 generatorOptions:
   disableNameSuffixHash: true

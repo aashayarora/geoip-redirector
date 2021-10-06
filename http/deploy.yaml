@@ -41,15 +41,9 @@ spec:
         volumeMounts:
         - mountPath: /home/GeoIP
           name: cache-vol
-        - mountPath: /var/www/GeoIP-Redi/app/geoip.py
+        - mountPath: /code/geoip.py
           name: geoip-http
           subPath: geoip.py
-        - mountPath: /var/www/GeoIP-Redi/app/__init__.py
-          name: geoip-http
-          subPath: __init__.py
-        - mountPath: /etc/httpd/conf.d/geoip.conf
-          name: geoip-http
-          subPath: geoip.conf
       dnsPolicy: ClusterFirst
       nodeSelector:
         kubernetes.io/hostname: stashcache.t2.ucsd.edu
@@ -63,10 +57,6 @@ spec:
         configMap:
           name: geoip-http
           items:
-          - key: geoip.conf
-            path: geoip.conf
-          - key: __init__.py
-            path: __init__.py
           - key: geoip.py
             path: geoip.py
 ---
