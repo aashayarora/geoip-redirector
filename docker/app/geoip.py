@@ -10,7 +10,7 @@ def _cache_list_to_string(cache_list):
     return ",".join(cache_list)
 
 def getClosestCacheFromIP(userIP):
-    caches = json.load(open("/home/aaarora/projects/geoip-redirector/docker/app/caches_http.json"))
+    caches = json.load(open("caches_http.json"))
     cache_list = list(caches.keys())
     order_list_caches = requests.get(f"http://oasis-replica.opensciencegrid.org:8000/cvmfs/dwd.test/api/v1.0/geo/{userIP}/{_cache_list_to_string(cache_list)}").text.strip("\n")
     order_list_caches = order_list_caches.split(",")
