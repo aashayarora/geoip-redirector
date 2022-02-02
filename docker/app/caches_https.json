@@ -1,0 +1,12 @@
+{
+    "xrootd-local.unl.edu": "1094",
+    "stashcache.t2.ucsd.edu": "8444", 
+    "its-condor-xrootd1.syr.edu": "8443", 
+    "osg-kansas-city-stashcache.nrp.internet2.edu": "8444",
+    "osg-chicago-stashcache.nrp.internet2.edu": "8444",
+    "osg-new-york-stashcache.nrp.internet2.edu": "8444",
+    "osg-gftp2.pace.gatech.edu": "8443",
+    "dtn2-daejeon.kreonet.net": "8444",
+    "osg-houston-stashcache.nrp.internet2.edu": "8444",
+    "osg-sunnyvale-stashcache.nrp.internet2.edu": "8444"
+}

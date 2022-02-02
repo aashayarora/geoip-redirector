@@ -1,0 +1,125 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: geoip-svc
+spec:
+  selector:
+    k8s-app: geoip
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 5000
+    protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: haproxy
+  name: geoip-ing
+spec:
+  rules:
+  - host: geoip.nrp-nautilus.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: geoip-svc
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - geoip.nrp-nautilus.io
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: geoip
+  name: geoip
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: geoip
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        k8s-app: geoip
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: geoip
+        - name: MYSQL_USER
+          value: geoip
+        - name: MYSQL_PASSWORD
+          value: geoip
+        - name: MYSQL_DATABASE
+          value: geoip
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
+          requests:
+            cpu: 0.5
+            memory: 512Mi
+      - name: geoip
+        image: aaarora/geoip-redi:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        resources:
+          limits:
+            cpu: 2
+            memory: 2Gi
+          requests:
+            cpu: 1
+            memory: 1Gi
+      dnsPolicy: Default
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: geoip-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: geoip
+  minReplicas: 1
+  maxReplicas: 2
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+  - type: Object
+    object:
+      metric:
+        name: requests-per-second
+      describedObject:
+        apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        name: geoip-ing
+      target:
+        type: Value
+        value: 5k

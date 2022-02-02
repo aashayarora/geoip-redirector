@@ -1,0 +1,13 @@
+{
+    "stashcache.t2.ucsd.edu": "8000",
+    "mwt2-stashcache.campuscluster.illinois.edu": "8000",
+    "its-condor-xrootd1.syr.edu": "8000",
+    "osg-kansas-city-stashcache.nrp.internet2.edu": "8000",
+    "osg-chicago-stashcache.nrp.internet2.edu": "8000",
+    "osg-new-york-stashcache.nrp.internet2.edu": "8000",
+    "stash-cache.osg.chtc.io": "8000",
+    "osg-gftp2.pace.gatech.edu": "8000",
+    "dtn2-daejeon.kreonet.net": "8000",
+    "osg-houston-stashcache.nrp.internet2.edu": "8000",
+    "osg-sunnyvale-stashcache.nrp.internet2.edu": "8000"
+}
