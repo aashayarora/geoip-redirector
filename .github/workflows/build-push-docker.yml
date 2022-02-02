@@ -28,6 +28,6 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        context: /
+        context: /docker
         file: Dockerfile
         tags: aaarora/geoip-redi:latest
